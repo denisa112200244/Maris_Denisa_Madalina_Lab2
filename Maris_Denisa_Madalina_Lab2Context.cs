@@ -1,0 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+
+public class Maris_Denisa_Madalina_Lab2Context(DbContextOptions<Maris_Denisa_Madalina_Lab2Context> options) : DbContext(options)
+{
+    public DbSet<Maris_Denisa_Madalina_Lab2.Models.Book> Book { get; set; } = default!;
+    public DbSet<Maris_Denisa_Madalina_Lab2.Models.Publisher> Publisher { get; set; } = default!;
+    public DbSet<Maris_Denisa_Madalina_Lab2.Models.Author> Author { get; set; } = default!;
+}
