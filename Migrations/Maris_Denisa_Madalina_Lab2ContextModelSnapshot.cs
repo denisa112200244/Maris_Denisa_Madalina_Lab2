@@ -32,7 +32,7 @@ namespace Maris_Denisa_Madalina_Lab2.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Author", (string)null);
+                    b.ToTable("Author");
                 });
 
             modelBuilder.Entity("Maris_Denisa_Madalina_Lab2.Models.Book", b =>
@@ -63,7 +63,43 @@ namespace Maris_Denisa_Madalina_Lab2.Migrations
 
                     b.HasIndex("PublisherID");
 
-                    b.ToTable("Book", (string)null);
+                    b.ToTable("Book");
+                });
+
+            modelBuilder.Entity("Maris_Denisa_Madalina_Lab2.Models.BookCategory", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("BookID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("BookID");
+
+                    b.HasIndex("CategoryID");
+
+                    b.ToTable("BookCategory");
+                });
+
+            modelBuilder.Entity("Maris_Denisa_Madalina_Lab2.Models.Category", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("Maris_Denisa_Madalina_Lab2.Models.Publisher", b =>
@@ -78,7 +114,7 @@ namespace Maris_Denisa_Madalina_Lab2.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Publisher", (string)null);
+                    b.ToTable("Publisher");
                 });
 
             modelBuilder.Entity("Maris_Denisa_Madalina_Lab2.Models.Book", b =>
@@ -96,9 +132,38 @@ namespace Maris_Denisa_Madalina_Lab2.Migrations
                     b.Navigation("Publisher");
                 });
 
+            modelBuilder.Entity("Maris_Denisa_Madalina_Lab2.Models.BookCategory", b =>
+                {
+                    b.HasOne("Maris_Denisa_Madalina_Lab2.Models.Book", "Book")
+                        .WithMany("BookCategories")
+                        .HasForeignKey("BookID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Maris_Denisa_Madalina_Lab2.Models.Category", "Category")
+                        .WithMany("BookCategories")
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("Maris_Denisa_Madalina_Lab2.Models.Author", b =>
                 {
                     b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("Maris_Denisa_Madalina_Lab2.Models.Book", b =>
+                {
+                    b.Navigation("BookCategories");
+                });
+
+            modelBuilder.Entity("Maris_Denisa_Madalina_Lab2.Models.Category", b =>
+                {
+                    b.Navigation("BookCategories");
                 });
 
             modelBuilder.Entity("Maris_Denisa_Madalina_Lab2.Models.Publisher", b =>

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Maris_Denisa_Madalina_Lab2.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class BookCategoryModif : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,6 +23,19 @@ namespace Maris_Denisa_Madalina_Lab2.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Author", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Category",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CategoryName = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Category", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -65,6 +78,32 @@ namespace Maris_Denisa_Madalina_Lab2.Migrations
                         principalColumn: "ID");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "BookCategory",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    BookID = table.Column<int>(type: "INTEGER", nullable: false),
+                    CategoryID = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookCategory", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_BookCategory_Book_BookID",
+                        column: x => x.BookID,
+                        principalTable: "Book",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BookCategory_Category_CategoryID",
+                        column: x => x.CategoryID,
+                        principalTable: "Category",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Book_AuthorID",
                 table: "Book",
@@ -74,13 +113,29 @@ namespace Maris_Denisa_Madalina_Lab2.Migrations
                 name: "IX_Book_PublisherID",
                 table: "Book",
                 column: "PublisherID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookCategory_BookID",
+                table: "BookCategory",
+                column: "BookID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookCategory_CategoryID",
+                table: "BookCategory",
+                column: "CategoryID");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "BookCategory");
+
+            migrationBuilder.DropTable(
                 name: "Book");
+
+            migrationBuilder.DropTable(
+                name: "Category");
 
             migrationBuilder.DropTable(
                 name: "Author");
