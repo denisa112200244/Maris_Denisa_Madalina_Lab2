@@ -1,4 +1,5 @@
-﻿namespace Maris_Denisa_Madalina_Lab2.Models
+﻿using System.ComponentModel.DataAnnotations;
+namespace Maris_Denisa_Madalina_Lab2.Models
 {
     public class Author
     {
